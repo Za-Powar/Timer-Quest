@@ -1,3 +1,4 @@
+// api/crud.js
 const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
@@ -7,14 +8,19 @@ const supabase = createClient(
 
 export default async function handler(req, res) {
   const table = req.query.table;
-  const rowId = req.query.id; // used for update/delete
+  const rowId = req.query.id;
 
-  if (!table) return res.status(400).json({ message: "Table required" });
+  if (!table) {
+    return res.status(400).json({ message: "Table parameter is required" });
+  }
 
   try {
     switch (req.method) {
       case "POST": // Create
         const createData = req.body;
+        if (!createData || Object.keys(createData).length === 0) {
+          return res.status(400).json({ message: "Request body is empty" });
+        }
         const { data: created, error: createError } = await supabase
           .from(table)
           .insert(createData);
@@ -29,8 +35,11 @@ export default async function handler(req, res) {
         return res.status(200).json(readData);
 
       case "PUT": // Update
-        if (!rowId) return res.status(400).json({ message: "Row id required for update" });
+        if (!rowId) return res.status(400).json({ message: "Row ID required for update" });
         const updateData = req.body;
+        if (!updateData || Object.keys(updateData).length === 0) {
+          return res.status(400).json({ message: "Request body is empty" });
+        }
         const { data: updated, error: updateError } = await supabase
           .from(table)
           .update(updateData)
@@ -39,7 +48,7 @@ export default async function handler(req, res) {
         return res.status(200).json(updated);
 
       case "DELETE": // Delete
-        if (!rowId) return res.status(400).json({ message: "Row id required for delete" });
+        if (!rowId) return res.status(400).json({ message: "Row ID required for delete" });
         const { data: deleted, error: deleteError } = await supabase
           .from(table)
           .delete()
@@ -52,6 +61,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: `Method ${req.method} not allowed` });
     }
   } catch (err) {
+    console.error(err);
     return res.status(500).json({ message: "Supabase error", error: err });
   }
 }
