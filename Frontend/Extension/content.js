@@ -59,7 +59,7 @@ function showOrbPopup(site) {
             }
 
             #orb-ignore-btn {
-                background: #e74c3c;
+                background: #3fe73c;
                 color: white;
             }
         `;
