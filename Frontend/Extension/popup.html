@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h2>UNLOCK</h2>
 
-  <div>
-    <label>Daily limit (minutes):</label>
-    <input id="limitInput" type="number" min="1" />
-  </div>
+<h2>ORB Tracker</h2>
 
-  <button id="saveBtn">Save Limit</button>
+<div class="input-area">
+    <input id="siteInput" placeholder="example.com">
+    <input id="timeInput" type="number" placeholder="Minutes">
+    <button id="addBtn">Add</button>
+</div>
 
-  <script src="popup.js"></script>
+<h3>Tracked Websites</h3>
+<ul id="siteList"></ul>
+
+<script src="popup.js"></script>
 </body>
 </html>

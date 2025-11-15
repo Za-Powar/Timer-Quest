@@ -1,18 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "UNLOCK - Activity Time Limiter",
+  "name": "ORB - Focus Extension",
   "version": "1.0",
-  "description": "Blocks distracting sites and unlocks them when you complete physical activities.",
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": "assets/icon.webp"
-  },
-  "permissions": [
-    "storage",
-    "tabs",
-    "scripting",
-    "activeTab"
-  ],
+  "permissions": ["storage", "tabs", "activeTab"],
   "background": {
     "service_worker": "background.js"
   },
@@ -21,5 +11,8 @@
       "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }

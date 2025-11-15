@@ -1,0 +1,48 @@
+#orb-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+    font-family: Arial, sans-serif;
+}
+
+#orb-box {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+}
+
+#orb-character {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.orb-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#orb-break-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+#orb-ignore-btn {
+    background: #e74c3c;
+    color: white;
+}
