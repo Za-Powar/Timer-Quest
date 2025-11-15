@@ -54,7 +54,7 @@ function showOrbPopup(site) {
             }
 
             #orb-break-btn {
-                background: #4CAF50;
+                background: red;
                 color: white;
             }
 
