@@ -35,9 +35,11 @@ function loadSites() {
         Object.keys(sites).forEach((site) => {
             const li = document.createElement("li");
             li.innerHTML = `
-                <strong>${site}</strong> — ${sites[site].limit} min
+                <div class="site-info">
+                    <strong>${site}</strong> : ${sites[site].limit} min
+                </div>
                 <button class="delBtn" data-site="${site}">x</button>
-            `;
+`           ;
             list.appendChild(li);
         });
 
