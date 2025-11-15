@@ -1,4 +1,3 @@
-// load stored sites on popup open
 document.addEventListener("DOMContentLoaded", loadSites);
 
 document.getElementById("addBtn").onclick = () => {
@@ -13,10 +12,7 @@ document.getElementById("addBtn").onclick = () => {
     chrome.storage.sync.get(["trackedSites"], (data) => {
         let sites = data.trackedSites || {};
 
-        sites[site] = {
-            limit: time,
-            spent: 0
-        };
+        sites[site] = { limit: time, spent: 0 };
 
         chrome.storage.sync.set({ trackedSites: sites }, loadSites);
     });
@@ -29,17 +25,16 @@ function loadSites() {
     chrome.storage.sync.get(["trackedSites"], (data) => {
         const sites = data.trackedSites || {};
         const list = document.getElementById("siteList");
-
         list.innerHTML = "";
 
         Object.keys(sites).forEach((site) => {
+            const displaySite = site.length > 25 ? site.slice(0, 22) + "…" : site;
             const li = document.createElement("li");
             li.innerHTML = `
-                <div class="site-info">
-                    <strong>${site}</strong> : ${sites[site].limit} min
-                </div>
+                <div class="site-info" title="${site}">${displaySite}</div>
+                <div class="minutes">${sites[site].limit} min</div>
                 <button class="delBtn" data-site="${site}">x</button>
-`           ;
+            `;
             list.appendChild(li);
         });
 

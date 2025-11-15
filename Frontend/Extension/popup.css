@@ -1,38 +1,34 @@
 body {
-    width: 250px;               /* Popup width */
+    width: 250px;               
     font-family: Arial, sans-serif;
-    padding: 15px;              /* Equal padding left & right */
-    box-sizing: border-box;     /* Include padding in width */
+    padding: 15px;              
+    box-sizing: border-box;     
     margin: 0;
-    background-color: #f9f9f9;  /* Optional: light background */
+    background-color: #f9f9f9;
 }
 
-/* Center and style the heading */
 h2 {
     text-align: center;
     margin-bottom: 15px;
     font-size: 20px;
 }
 
-/* Input area container */
 .input-area {
     display: flex;
     flex-direction: column;
-    gap: 8px;                  /* Space between input fields and button */
+    gap: 8px;
     margin-bottom: 15px;
 }
 
-/* Inputs styling */
 input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    box-sizing: border-box;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
-/* Buttons styling */
 button {
     width: 100%;
     padding: 8px;
@@ -49,32 +45,36 @@ button:hover {
     background-color: #45a049;
 }
 
-/* Tracked sites list */
 ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-/* Each site entry */
 li {
-    padding: 6px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 6px 0;
     border-bottom: 1px solid #ddd;
     font-size: 14px;
 }
 
 .site-info {
-    flex: 1;               /* Take all space left of button */
+    flex: 1;
+    color: blue;
+    text-decoration: underline;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 8px;
 }
 
-li strong {
-    flex: 1;                   /* Take remaining space */
+.minutes {
+    flex-shrink: 0;
+    margin-right: 8px;
 }
 
-/* Delete button */
 .delBtn {
     width: 20px;
     height: 20px;
@@ -87,10 +87,10 @@ li strong {
     line-height: 18px;
     text-align: center;
     padding: 0;
+    flex-shrink: 0;
     transition: background 0.2s;
-    flex-shrink: 0;             /* Prevent shrinking */
 }
 
 .delBtn:hover {
-    background: darkred;
+    background: rgb(197, 8, 8);
 }
