@@ -30,7 +30,7 @@ function showOrbPopup(site) {
             }
 
             #orb-box {
-                background: white;
+                background: rgb(31, 133, 58);
                 padding: 25px;
                 border-radius: 15px;
                 text-align: center;
