@@ -5,7 +5,7 @@
   "description": "Blocks distracting sites and unlocks them when you complete physical activities.",
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "assets/icon.png"
+    "default_icon": "assets/icon.webp"
   },
   "permissions": [
     "storage",

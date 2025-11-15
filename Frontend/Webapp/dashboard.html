@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UNLOCK Dashboard</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+  <h1>UNLOCK Dashboard</h1>
+
+  <!-- XP Card -->
+  <div class="card">
+    <h2>Your XP</h2>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="xpBar"></div>
+    </div>
+
+    <p>Level: <span id="level">3</span></p>
+  </div>
+
+  <!-- Main Row -->
+  <div class="flex">
+
+    <!-- Usage Card -->
+    <div class="card half">
+      <h2>Daily Time Usage</h2>
+      <p>(Graph coming later)</p>
+      <div id="usagePlaceholder">Loading...</div>
+    </div>
+
+    <!-- Character Card -->
+    <div class="card half character-zone">
+      <h2>Your Companion</h2>
+
+      <div id="character-container">
+        <img id="character" src="./assets/character.png" alt="Character">
+      </div>
+
+      <button class="button glow" id="animateBtn">Make Him Move</button>
+    </div>
+
+  </div>
+
+  <!-- Unlock History -->
+  <div class="card">
+    <h2>Unlock History</h2>
+    <div id="history">Coming soon...</div>
+  </div>
+
+  <!-- JS Script -->
+  <script src="dashboard.js"></script>
+
+</body>
+</html>
