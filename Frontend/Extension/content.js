@@ -4,7 +4,18 @@ chrome.runtime.onMessage.addListener((msg) => {
         showOrbPopup(msg.site);
     }
 });
+/* // content.js
+let startTime = Date.now(); // record when the user opened the page
 
+// This runs when the user leaves the page
+window.addEventListener("beforeunload", () => {
+    const endTime = Date.now();
+    const timeSpent = Math.round((endTime - startTime) / 1000); // seconds
+    const pageUrl = window.location.href;
+
+    // Send data to background script or directly to Supabase
+    chrome.runtime.sendMessage({ url: pageUrl, timeSpent });
+}); */
 function showOrbPopup(site) {
     // Prevent duplicates
     if (document.getElementById("orb-overlay")) return;
