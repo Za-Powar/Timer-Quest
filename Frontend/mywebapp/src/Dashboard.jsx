@@ -434,28 +434,136 @@ function CompanionCard() {
   );
 }
 
-
+const BADGES = [
+  { id: 1, name: "Level 1 Achiever", required_level: 1, icon_url: "" },
+  { id: 2, name: "Early Bird", required_level: 2, icon_url: "" },
+  { id: 3, name: "Marathoner", required_level: 3, icon_url: "" },
+  { id: 4, name: "Coming Soon", required_level: 4, icon_url: "" },
+];
 
 /* ============================================================
    UNLOCK HISTORY CARD
 ============================================================ */
 function UnlockHistoryCard() {
+  const [userLevel, setUserLevel] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+    try {
+      // Get the current loggedin user
+      const { data: u, error: authError } = await supabase.auth.getUser();
+      if (authError) throw authError;
+
+      const user = u?.user;
+      if (!user) return setLoading(false);
+
+      // Fetch user level from your table
+      const { data, error } = await supabase
+        .from("user_profiles")
+        .select("lvl")
+        .eq("user_id", user.id)
+        .single();
+
+      if (error) throw error;
+
+      setUserLevel(data?.lvl || 0);
+    } catch (err) {
+      console.error("Error fetching user levels:", err);
+    }
+      setLoading(false);
+    };
+
+    load();
+  }, []);
+
   return (
     <Card elevation={2} sx={{ borderRadius: 4 }}>
       <CardContent sx={{ p: 3 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
-          Recent Unlocks
-        </Typography>
+        {loading ? (
+          <Typography>Loading...</Typography>
+        ) : (
+          <>
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+              Recent Unlocks
+            </Typography>
 
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          This will show new levels, badges, and milestones as Timer Quest evolves.
-        </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Track your progress and milestones as you level up in Timer Quest.
+            </Typography>
 
-        <Divider sx={{ my: 2 }} />
+            <Divider sx={{ my: 2 }} />
 
-        <Typography variant="body2" color="text.secondary" sx={{ fontStyle: "italic" }}>
-          No unlocks yet — keep being productive to earn your first badge!
-        </Typography>
+            <Box display="flex" flexWrap="wrap" gap={2}>
+              {BADGES.map((badge) => {
+                const unlocked = userLevel >= badge.required_level;
+
+                return (
+                  <Box
+                    key={badge.id}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    sx={{
+                      p: 1.5,
+                      borderRadius: 2,
+                      transition: "0.3s ease",
+                      opacity: unlocked ? 1 : 0.4,
+
+                      // 🔮 Purple highlight when unlocked
+                      background: unlocked
+                        ? "linear-gradient(135deg, rgba(155,89,182,0.45), rgba(142,68,173,0.35))"
+                        : "transparent",
+
+                      boxShadow: unlocked
+                        ? "0 0 10px rgba(155, 89, 182, 0.7)"
+                        : "none",
+                    }}
+                  >
+                    <Avatar
+                      src={badge.icon_url || "/icons/placeholder.png"}
+                      sx={{
+                        width: 50,
+                        height: 50,
+                        mb: 1,
+                        border: unlocked ? "2px solid #9b59b6" : "2px solid gray",
+                        transition: "0.3s ease",
+                      }}
+                      alt={badge.name}
+                    />
+
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        fontWeight: 700,
+                        color: unlocked ? "#9b59b6" : "text.secondary",
+                      }}
+                    >
+                      {badge.name}
+                    </Typography>
+
+                    <Typography
+                      variant="caption"
+                      color={unlocked ? "success.main" : "text.disabled"}
+                    >
+                      Level {badge.required_level}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Box>
+
+            {userLevel === 0 && (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ fontStyle: "italic", mt: 2 }}
+              >
+                No unlocks yet — keep being productive to earn your first badge!
+              </Typography>
+            )}
+          </>
+        )}
       </CardContent>
     </Card>
   );
