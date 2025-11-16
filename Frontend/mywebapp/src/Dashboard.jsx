@@ -240,44 +240,101 @@ function MiniStat({ icon, label, value }) {
    XP CARD
 ============================================================ */
 function XPCard() {
-  const level = 3;
-  const progress = 0.8;
+  const [stats, setStats] = useState({ lvl: 0, xp: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Get current session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError || !session) {
+          console.error("No session found", sessionError);
+          setLoading(false);
+          return;
+        }
+
+        const userId = session.user.id;
+
+        // Fetch lvl and xp from the table
+        const { data, error } = await supabase
+          .from("user_profiles")
+          .select("lvl, xp")
+          .eq("id", userId)
+          .maybeSingle();
+
+        if (error) {
+          console.error("Error fetching XP/Level:", error);
+        } else if (data) {
+          setStats({ lvl: data.lvl ?? 0, xp: data.xp ?? 0 });
+        } else {
+          console.warn("No profile found for user");
+        }
+      } catch (err) {
+        console.error("Unexpected error fetching stats:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  // Calculate progress for progress bar (10 XP per level)
+  const xpThisLevel = stats.xp % 10;
+  const progress = (xpThisLevel / 10) * 100; // percentage
+
+  if (loading)
+    return (
+      <Card elevation={2} sx={{ borderRadius: 4, p: 3 }}>
+        Loading...
+      </Card>
+    );
 
   return (
     <Card elevation={2} sx={{ borderRadius: 4 }}>
       <CardContent sx={{ p: 3 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Box>
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>Your Level</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+              Your Level
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               Gain XP by staying focused and finishing quests.
             </Typography>
           </Box>
-          <Chip label={`Level ${level}`} color="primary" sx={{ borderRadius: 999, fontWeight: 700 }} />
+          <Chip
+            label={`Level ${stats.lvl}`}
+            color="primary"
+            sx={{ borderRadius: 999, fontWeight: 700 }}
+          />
         </Stack>
 
         <Box sx={{ mt: 3 }}>
-          <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
-            XP to next level
+          <Typography variant="body2" sx={{ fontWeight: 600 }}>
+            Current XP: {stats.xp}
           </Typography>
 
-          <LinearProgress
-            variant="determinate"
-            value={progress * 100}
-            sx={{
-              mt: 1,
-              height: 10,
-              borderRadius: 999,
-              "& .MuiLinearProgress-bar": {
+          <Box sx={{ mt: 1 }}>
+            <LinearProgress
+              variant="determinate"
+              value={progress}
+              sx={{
+                height: 10,
                 borderRadius: 999,
-                background: "linear-gradient(90deg, #5C6BF2, #8F6CF7, #FF7AC4)",
-              },
-            }}
-          />
-
-          <Typography variant="caption" sx={{ mt: 0.5, display: "block", textAlign: "right" }}>
-            {Math.round(progress * 100)}% towards Level {level + 1}
-          </Typography>
+                "& .MuiLinearProgress-bar": {
+                  borderRadius: 999,
+                  background: "linear-gradient(90deg, #5C6BF2, #8F6CF7, #FF7AC4)",
+                },
+              }}
+            />
+            <Typography
+              variant="caption"
+              sx={{ mt: 0.5, display: "block", textAlign: "right" }}
+            >
+              {Math.round(progress)}% towards next level
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
     </Card>
@@ -574,7 +631,47 @@ function UnlockHistoryCard() {
    STREAK TRACKER CARD
 ============================================================ */
 function StreakTrackerCard() {
-  const streak = 3;
+  const [streak, setStreak] = useState(3); // initial value from DB
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStreak = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) return setLoading(false);
+
+        const userId = session.user.id;
+
+        const { data, error } = await supabase
+          .from("user_profiles")
+          .select("streak")
+          .eq("id", userId)
+          .maybeSingle();
+
+        if (!error && data) {
+          setStreak(data.streak ?? 0);
+        }
+
+      } catch (err) {
+        console.error("Error fetching streak:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStreak();
+  }, []);
+
+  if (loading)
+    return (
+      <Card elevation={3} sx={{ borderRadius: 4, p: 3 }}>
+        Loading...
+      </Card>
+    );
+
+  const daysThisWeek = streak % 7;
+  const progress = (daysThisWeek / 7) * 100;
+  const daysToNextMilestone = 7 - daysThisWeek;
 
   return (
     <Card elevation={3} sx={{ borderRadius: 4, p: 3 }}>
@@ -605,7 +702,7 @@ function StreakTrackerCard() {
 
       <LinearProgress
         variant="determinate"
-        value={(streak / 7) * 100}
+        value={progress}
         sx={{
           height: 10,
           borderRadius: 999,
@@ -619,7 +716,7 @@ function StreakTrackerCard() {
         variant="caption"
         sx={{ display: "block", mt: 1, textAlign: "right" }}
       >
-        {7 - streak} days to next milestone
+        {daysToNextMilestone} days to next milestone
       </Typography>
     </Card>
   );
