@@ -1,51 +1,40 @@
-import { supabase } from "./supabase.js";
+console.log("TimerQuest background service worker started");
 
-console.log("ORB background running...");
-
-// Track every 15 sec (0.25 min)
-const INTERVAL = 15000;
+const CHECK_INTERVAL = 15000; // 15 sec for testing
 
 setInterval(() => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         if (!tabs || !tabs[0]) return;
-
-        const tab = tabs[0];
         let url;
 
         try {
-            url = new URL(tab.url);
-        } catch {
+            url = new URL(tabs[0].url);
+        } catch (e) {
             return;
         }
 
-        const hostname = url.hostname.replace("www.", "");
+        const host = url.hostname.replace("www.", "");
 
         chrome.storage.sync.get(["trackedSites"], (data) => {
             const sites = data.trackedSites || {};
-            if (!sites[hostname]) return;
+            if (!sites[host]) return;
 
-            const site = sites[hostname];
-
-            // Add 0.25 minutes every interval
-            site.spent = (site.spent || 0) + 0.25;
-
-            // ---- OPEN POPUP when time limit exceeded ----
-            if (!site.alert && site.spent >= site.limit) {
-                site.alert = true;
-
-                chrome.storage.sync.set({ trackedSites: sites });
-
-                // Open break popup window
-                chrome.windows.create({
-                    url: "breakPopup.html",
-                    type: "popup",
-                    width: 360,
-                    height: 420,
-                    focused: true
-                });
-            }
+            const site = sites[host];
+            site.spent = (site.spent || 0) + 0.25; // 0.25 min per 15s
 
             chrome.storage.sync.set({ trackedSites: sites });
+
+            if (!site.alert && site.spent >= site.limit) {
+                site.alert = true;
+                chrome.storage.sync.set({ trackedSites: sites });
+
+                chrome.notifications.create({
+                    type: "basic",
+                    iconUrl: "logo.png",
+                    title: "Time limit reached",
+                    message: `You've exceeded your limit on ${host}.`
+                });
+            }
         });
     });
-}, INTERVAL);
+}, CHECK_INTERVAL);
