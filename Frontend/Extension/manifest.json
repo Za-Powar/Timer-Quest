@@ -1,13 +1,36 @@
 {
   "manifest_version": 3,
-  "name": "TimerQuest Tracker",
+  "name": "TimerQuest",
   "version": "1.0",
-  "permissions": ["tabs", "storage", "notifications"],
+
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
+
+  "permissions": [
+    "tabs",
+    "storage",
+    "notifications",
+    "system.display",
+    "windows"
+  ],
+
   "action": {
-    "default_popup": "popup.html"
-  }
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+
+  "web_accessible_resources": [{
+    "resources": ["limitPopup.html", "icon.png"],
+    "matches": ["<all_urls>"]
+  }]
+
 }

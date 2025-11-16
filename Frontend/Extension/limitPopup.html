@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TimerQuest – Time’s Up</title>
+
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .box {
+    background: white;
+    width: 360px;
+    padding: 28px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 12px 28px rgba(0, 0, 80, 0.15);
+    animation: pop 0.25s ease-out;
+  }
+
+  @keyframes pop {
+    from { transform: translateY(15px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+
+  #mascot {
+    width: 135px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 15px;
+    color: #1f2937;
+    line-height: 1.4;
+  }
+
+  .btn-container {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .btn {
+    width: 135px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+
+  .ignore {
+    background: #ef4444;
+    color: white;
+  }
+
+  .ignore:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+  }
+
+  .validate {
+    background: #22c55e;
+    color: white;
+  }
+
+  .validate:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+  }
+
+  /* Disabled state for validate */
+  .disabled {
+    opacity: 0.6;
+    transform: none !important;
+    cursor: default;
+  }
+</style>
+</head>
+
+<body>
+<div class="box">
+  
+  <img id="mascot" src="icon.png" alt="Clocky">
+
+  <h2>⏱ Time’s Up!</h2>
+
+  <p id="message">Your screen time just hit ‘okay chill’ levels.</p>
+
+  <p style="margin-top: 8px;">
+    Clocky recommends taking a short break — stretch, walk around, or drink some water 💧
+  </p>
+
+  <div class="btn-container">
+    <button id="ignoreBtn" class="btn ignore">Ignore</button>
+    <button id="validateBtn" class="btn validate">Validate</button>
+  </div>
+
+</div>
+
+<script>
+  chrome.runtime.onMessage.addListener((msg) => {
+    if (msg.type === "time-info") {
+      document.getElementById("message").innerText =
+        `Your screen time just hit ‘okay chill’ levels.`;
+    }
+  });
+
+  // IGNORE → close immediately
+  document.getElementById("ignoreBtn").onclick = () => {
+    chrome.windows.getCurrent(win => {
+        chrome.windows.remove(win.id);
+    });
+};
+
+  // VALIDATE → disable + confirm + close after 1 minute
+  document.getElementById("validateBtn").onclick = () => {
+    const btn = document.getElementById("validateBtn");
+    btn.innerText = "Validated ✔";
+    btn.classList.add("disabled");
+    btn.disabled = true;
+
+    setTimeout(() => {
+      chrome.windows.getCurrent(w => chrome.windows.remove(w.id));
+    }, 60000);
+  };
+</script>
+
+</body>
+</html>
