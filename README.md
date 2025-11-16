@@ -9,7 +9,8 @@ The extension tracks time spent on websites and the dashboard visualizes your XP
 ## 🚀 Features
 **Chrome Extension:**
 - Tracks time spent on websites and stores in a datsabase
-- Sends usage data to supabase
+- Allows users to define custom timers for focused sessions
+- Sends usage and timer data to Supabase
 
 - **WebDashboard:**
 - User authentication (Sign up / Login)
@@ -18,7 +19,7 @@ The extension tracks time spent on websites and the dashboard visualizes your XP
 
 ## 🛠️ Tech Stack / Tools
 - **Frontend:** HTML, CSS, REACT
-- **Backend:** 
+- **Backend:** Javascript
 - **Database:** PostreSQL
 
 ## ⚙️ Installation
