@@ -7,13 +7,31 @@ Timer Quest is a productivity system with two parts:
 The extension tracks time spent on websites and the dashboard visualizes your XP, streaks, and companion mood, all synced through Supabase.
 
 ## 🚀 Features
-- **Chrome Extension:**
+**Chrome Extension:**
+- Tracks time spent on websites and stores in a datsabase
+- Sends usage data to supabase
 
 - **WebDashboard:**
-
+- User authentication (Sign up / Login)
+- Visualizes XP, streaks
 - Database tables for usage logs, users, streaks, and XP
 
 ## 🛠️ Tech Stack / Tools
-- **Frontend:**
+- **Frontend:** HTML, CSS, REACT
 - **Backend:** 
 - **Database:** PostreSQL
+
+## ⚙️ Installation
+### Chrome Extension
+1. Clone the repository
+2. Open Chrome → Extensions → Load unpacked
+3. Select the `extension` folder
+4. Start tracking your website usage
+
+### Web Dashboard
+1. Clone the repository
+2. Run `npm install` in the web folder
+3. Set up environment variables for Supabase
+4. Run `npm start` to launch the dashboard
+
+## 📄 License
