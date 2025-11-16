@@ -4,7 +4,8 @@ chrome.runtime.onMessage.addListener((msg) => {
         showOrbPopup(msg.site);
     }
 });
-/* // content.js
+
+// content.js
 let startTime = Date.now(); // record when the user opened the page
 
 // This runs when the user leaves the page
@@ -15,7 +16,8 @@ window.addEventListener("beforeunload", () => {
 
     // Send data to background script or directly to Supabase
     chrome.runtime.sendMessage({ url: pageUrl, timeSpent });
-}); */
+});
+
 function showOrbPopup(site) {
     // Prevent duplicates
     if (document.getElementById("orb-overlay")) return;
