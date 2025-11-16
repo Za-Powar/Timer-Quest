@@ -1,6 +1,6 @@
 console.log("ORB background running...");
 
-// How often to check (15 sec for testing)
+/*// How often to check (15 sec for testing)
 const INTERVAL = 15000;
 
 setInterval(() => {
@@ -57,10 +57,10 @@ setInterval(() => {
             chrome.storage.sync.set({ trackedSites: sites });
         });
     });
-}, INTERVAL);
+}, INTERVAL); */
 
 
-/*const SUPABASE_URL = "https://tspuhbpauftvxoqytezd.supabase.co";
+const SUPABASE_URL = "https://tspuhbpauftvxoqytezd.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzcHVoYnBhdWZ0dnhvcXl0ZXpkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMjYzNDIsImV4cCI6MjA3ODcwMjM0Mn0.t2wNIZruPGeuILfeplVxtFc6tWmyTF1hL3LhpggWNGs";
 
 chrome.runtime.onMessage.addListener(async (message) => {
@@ -78,4 +78,4 @@ chrome.runtime.onMessage.addListener(async (message) => {
 
     const data = await response.json();
     console.log("Page time saved:", data);
-}); */
+});
