@@ -1,5 +1,4 @@
 # Timer-Quest
-TimerQuest
 
 TimerQuest is a productivity system with two parts:
 - React Web App (Dashboard + Login)
