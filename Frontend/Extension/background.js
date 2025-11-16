@@ -1,6 +1,8 @@
+import { supabase } from "./supabase.js";
+
 console.log("ORB background running...");
 
-/*// How often to check (15 sec for testing)
+// Track every 15 sec (0.25 min)
 const INTERVAL = 15000;
 
 setInterval(() => {
@@ -12,7 +14,7 @@ setInterval(() => {
 
         try {
             url = new URL(tab.url);
-        } catch (e) {
+        } catch {
             return;
         }
 
@@ -20,41 +22,30 @@ setInterval(() => {
 
         chrome.storage.sync.get(["trackedSites"], (data) => {
             const sites = data.trackedSites || {};
-
             if (!sites[hostname]) return;
 
             const site = sites[hostname];
 
+            // Add 0.25 minutes every interval
             site.spent = (site.spent || 0) + 0.25;
 
-            console.log(`${hostname}: ${site.spent.toFixed(2)} / ${site.limit} minutes`);
+            // ---- OPEN POPUP when time limit exceeded ----
+            if (!site.alert && site.spent >= site.limit) {
+                site.alert = true;
 
-            // Check if limit exceeded
-            if (!site.alerted && site.spent >= site.limit) {
-                site.alerted = true;
+                chrome.storage.sync.set({ trackedSites: sites });
 
-                console.log(`LIMIT EXCEEDED for ${hostname}`);
-
-                // SAFE SEND — prevents your error
-                chrome.tabs.sendMessage(
-                    tab.id,
-                    { action: "timeExceeded", site: hostname },
-                    (response) => {
-                        if (chrome.runtime.lastError) {
-                            console.warn(
-                                "Content script not available in this tab:",
-                                chrome.runtime.lastError.message
-                            );
-                            return; // prevents crash
-                        }
-
-                        console.log("Content script response:", response);
-                    }
-                );
+                // Open break popup window
+                chrome.windows.create({
+                    url: "breakPopup.html",
+                    type: "popup",
+                    width: 360,
+                    height: 420,
+                    focused: true
+                });
             }
 
-            sites[hostname] = site;
             chrome.storage.sync.set({ trackedSites: sites });
         });
     });
-}, INTERVAL); */
+}, INTERVAL);

@@ -1,22 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="popup.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TimerQuest Tracker</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 20px 15px; /* Spacing around everything */
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(180deg, #7b5bff, #ff6ec7);
+    color: white;
+    width: 340px;
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .container {
+    width: 100%;
+    padding: 10px 10px 20px 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .logo {
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin: 0 auto 15px auto;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    margin-top: 0;
+  }
+
+  /* -------- Small link under title -------- */
+  .webapp-link {
+    margin-top: -4px;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+
+  .webapp-link a {
+    font-size: 12px;
+    color: #ffffffcc;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin: 8px 0;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    background: linear-gradient(90deg, #7b5bff, #ff6ec7);
+    border: none;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  button:hover {
+    transform: scale(1.03);
+  }
+
+  .section-title {
+    font-size: 18px;
+    margin-top: 28px;
+    text-align: left;
+    width: 100%;
+  }
+
+  #trackedList {
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
+  }
+
+  .site-item {
+    background: rgba(255, 255, 255, 0.18);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .delete-btn {
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffdddd;
+  }
+</style>
 </head>
+
 <body>
+  <div class="container">
+    <img src="logo.svg" class="logo" />
 
-<h2>          ORB Tracker</h2>
+    <h1>TimerQuest Tracker</h1>
 
-<div class="input-area">
-    <input id="siteInput" placeholder="example.com">
-    <input id="timeInput" type="number" placeholder="Minutes">
-    <button id="addBtn">Add</button>
-</div>
+    <div class="webapp-link">
+      <a href="http://localhost:5173/" target="_blank">Open TimerQuest Web App →</a>
+    </div>
 
-<h3>Tracked Websites:</h3>
-<ul id="siteList"></ul>
+    <input id="websiteInput" type="text" placeholder="Website (example.com)" />
+    <input id="minutesInput" type="number" placeholder="Minutes" />
+
+    <button id="addButton">Add</button>
+
+    <div class="section-title">Tracked Websites</div>
+    <div id="trackedList"></div>
+  </div>
 
 <script src="popup.js"></script>
 </body>
 </html>
+

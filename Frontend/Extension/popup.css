@@ -1,99 +1,115 @@
 body {
-    width: 250px;               
-    font-family: Arial, sans-serif;
-    padding: 15px;              
-    box-sizing: border-box;     
-    margin: 0;
-    background-color: #0dcfcf;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #6C63FF, #FF7AC4);
+  color: white;
+  width: 360px;
+  min-height: 500px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 15px;
-    font-size: 20px;
+/* Wrapper */
+.popup-wrapper {
+  width: 100%;
+  padding: 20px;
 }
 
-.input-area {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 15px;
+/* Mascot */
+.popup-logo {
+  width: 90px;
+  margin-bottom: 10px;
 }
 
+/* Title */
+h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
 input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #000000;
-    border-radius: 6px;
-    font-size: 14px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  margin-bottom: 12px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
+/* Add Button */
 button {
-    width: 100%;
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    background-color: #4CAF50;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(90deg, #6C63FF, #FF7AC4);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  margin-bottom: 25px;
 }
 
 button:hover {
-    background-color: #45a049;
+  opacity: 0.9;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* Section Title */
+h2 {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: left;
+  width: 100%;
+  margin: 0 0 10px 0;
 }
 
-li {
-    padding: 6px 10px;              /* Add horizontal padding */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #000000;
-    font-size: 14px;
-    background-color: #ffffff;      /* <-- Change this to any color you like */
-    border-radius: 6px;             /* Rounded corners */
-    margin-bottom: 5px;             /* Space between boxes */
+/* Website Card (big improvement) */
+.site-card {
+  width: 100%;
+  background: rgba(255,255,255,0.15);
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.site-info {
-    flex: 1;
-    color: blue;
-    text-decoration: underline;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    margin-right: 8px;
+/* Clickable link */
+.site-card a {
+  color: white;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
-.minutes {
-    flex-shrink: 0;
-    margin-right: 8px;
+/* Minutes */
+.minutes-label {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
-.delBtn {
-    width: 20px;
-    height: 20px;
-    background: red;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 12px;
-    line-height: 18px;
-    text-align: center;
-    padding: 0;
-    flex-shrink: 0;
-    transition: background 0.2s;
+/* Delete (X) button */
+.delete-btn {
+  cursor: pointer;
+  font-weight: 800;
+  margin-left: 10px;
+  color: #FFD1D1;
+  font-size: 18px;
 }
 
-.delBtn:hover {
-    background: rgb(197, 8, 8);
+.delete-btn:hover {
+  color: #FF5A5A;
 }

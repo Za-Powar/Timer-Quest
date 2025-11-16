@@ -1,18 +1,29 @@
 {
   "manifest_version": 3,
-  "name": "ORB - Focus Extension",
-  "version": "1.0",
-  "permissions": ["storage", "tabs", "activeTab"],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ],
+  "name": "TimerQuest Tracker",
+  "description": "Tracks time spent on websites and syncs data to your TimerQuest dashboard.",
+  "version": "1.0.0",
+
   "action": {
-    "default_popup": "popup.html"
-  }
+    "default_popup": "popup.html",
+    "default_title": "TimerQuest Tracker",
+    "default_icon": "logo.svg"
+  },
+
+  "icons": {
+    "16": "logo.svg",
+    "32": "logo.svg",
+    "48": "logo.svg",
+    "128": "logo.svg"
+  },
+
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+
+  "background": {
+  "service_worker": "background.js",
+  "type": "module"
+}
 }

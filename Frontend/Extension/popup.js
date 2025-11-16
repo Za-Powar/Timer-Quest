@@ -1,53 +1,63 @@
-document.addEventListener("DOMContentLoaded", loadSites);
+document.addEventListener("DOMContentLoaded", () => {
 
-document.getElementById("addBtn").onclick = () => {
-    const site = document.getElementById("siteInput").value.trim();
-    const time = parseInt(document.getElementById("timeInput").value);
+  const websiteInput = document.getElementById("websiteInput");
+  const minutesInput = document.getElementById("minutesInput");
+  const addButton = document.getElementById("addButton");
+  const trackedList = document.getElementById("trackedList");
 
-    if (!site || !time || time <= 0) {
-        alert("Enter a valid website and time (in minutes).");
-        return;
-    }
+  // ------------------
+  // ADD SITE BUTTON
+  // ------------------
+  addButton.addEventListener("click", () => {
+    const site = websiteInput.value.trim();
+    const mins = minutesInput.value.trim();
+
+    if (!site || !mins) return;
 
     chrome.storage.sync.get(["trackedSites"], (data) => {
-        let sites = data.trackedSites || {};
+      const sites = data.trackedSites || {};
 
-        sites[site] = { limit: time, spent: 0 };
+      sites[site] = {
+        limit: parseFloat(mins),
+        spent: 0,
+        alert: false
+      };
 
-        chrome.storage.sync.set({ trackedSites: sites }, loadSites);
+      chrome.storage.sync.set({ trackedSites: sites }, () => {
+        websiteInput.value = "";
+        minutesInput.value = "";
+        renderList();
+      });
     });
+  });
 
-    document.getElementById("siteInput").value = "";
-    document.getElementById("timeInput").value = "";
-};
-
-function loadSites() {
+  // ------------------
+  // RENDER LIST
+  // ------------------
+  function renderList() {
     chrome.storage.sync.get(["trackedSites"], (data) => {
-        const sites = data.trackedSites || {};
-        const list = document.getElementById("siteList");
-        list.innerHTML = "";
+      const sites = data.trackedSites || {};
+      trackedList.innerHTML = "";
 
-        Object.keys(sites).forEach((site) => {
-            const displaySite = site.length > 25 ? site.slice(0, 22) + "…" : site;
-            const li = document.createElement("li");
-            li.innerHTML = `
-                <div class="site-info" title="${site}">${displaySite}</div>
-                <div class="minutes">${sites[site].limit} min</div>
-                <button class="delBtn" data-site="${site}">x</button>
-            `;
-            list.appendChild(li);
+      Object.keys(sites).forEach((site) => {
+        const div = document.createElement("div");
+        div.className = "site-item";
+
+        div.innerHTML = `
+          <span>${site} — ${sites[site].limit} min</span>
+          <span class="delete-btn">&times;</span>
+        `;
+
+        div.querySelector(".delete-btn").addEventListener("click", () => {
+          delete sites[site];
+          chrome.storage.sync.set({ trackedSites: sites }, renderList);
         });
 
-        document.querySelectorAll(".delBtn").forEach(btn => {
-            btn.onclick = () => deleteSite(btn.dataset.site);
-        });
+        trackedList.appendChild(div);
+      });
     });
-}
+  }
 
-function deleteSite(site) {
-    chrome.storage.sync.get(["trackedSites"], (data) => {
-        let sites = data.trackedSites || {};
-        delete sites[site];
-        chrome.storage.sync.set({ trackedSites: sites }, loadSites);
-    });
-}
+  renderList();
+
+});

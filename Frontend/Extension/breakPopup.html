@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Take a Break</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #7b5bff, #ff6ec7);
+      color: white;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    #ignore {
+      background: #ffffff33;
+      color: white;
+    }
+    #accept {
+      background: white;
+      color: #7b5bff;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Time’s Up!</h2>
+  <p>You’ve reached your limit on this website.</p>
+  <p>How about taking a quick walk or drinking some water?</p>
+
+  <button id="accept">Take a 3-Minute Break</button>
+  <button id="ignore">Ignore</button>
+
+  <script>
+    document.getElementById("ignore").onclick = () => window.close();
+
+    document.getElementById("accept").onclick = () => {
+      setTimeout(() => window.close(), 3 * 60 * 1000);
+    };
+  </script>
+
+</body>
+</html>

@@ -1,3 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Remove all browser default margins */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: none;
+}
